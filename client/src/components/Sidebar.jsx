@@ -15,7 +15,7 @@ const Sidebar = () => {
         { label: "Admin", icon: Settings },
     ];
   return (
-    <div className="w-64 bg-green-900 text-white shadow-lg">
+    <div className="w-52 bg-green-900 text-white shadow-lg">
         <div className="space-y-4 p-4">
             <div className="flex items-center gap-2 mb-4">
                 <img src={logo} alt="Logo" className="h-10 w-auto" />
@@ -24,7 +24,7 @@ const Sidebar = () => {
             <ul className="space-y-4">
                 {NAV_ITEMS.map((item, index) => (
                     <li key={index} className="mb-6">
-                        <Link to="/" className="flex items-center gap-2 text-white hover:text-gray-300">
+                        <Link to={item.path || ""} className="flex items-center gap-2 text-white hover:text-gray-300">
                             <item.icon className="h-5 w-5" />
                             <span className="text-sm font-medium">{item.label}</span>
                         </Link>

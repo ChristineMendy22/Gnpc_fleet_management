@@ -10,6 +10,7 @@ import {
   IdCard,
   BarChart3,
   Settings,
+  Plus,
 } from "lucide-react";
 import AppLayout from "../layout/AppLayout";
 
@@ -52,6 +53,36 @@ const MyRequests = () => {
     <div>
       <AppLayout title="My Requests">
         <div className="overflow-x-auto mt-6">
+          <div className="flex items-center justify-between mb-4">
+            {/* Filters */}
+            <div className="flex items-center gap-4 mb-4">
+              {/* Search bar */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="search" className="text-sm font-medium text-gray-700">Search:</label>
+                <input
+                  id="search"
+                  className="w-96 border border-gray-300 p-2 rounded-md"
+                  placeholder="Search requests..."
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <label htmlFor="status" className="text-sm font-medium text-gray-700">  Status:</label>
+                <select
+                  id="status"
+                  className="border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                >
+                  {STATUSES.map((status) => (
+                    <option key={status} value={status}>{status}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            
+            <button className="bg-green-900 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-green-700">
+              <Plus /> Add Request
+            </button>
+          </div>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
