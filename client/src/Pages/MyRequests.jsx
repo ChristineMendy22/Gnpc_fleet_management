@@ -61,7 +61,7 @@ const MyRequests = () => {
                 <label htmlFor="search" className="text-sm font-medium text-gray-700">Search:</label>
                 <input
                   id="search"
-                  className="w-96 border border-gray-300 p-2 rounded-md"
+                  className="w-96 border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   placeholder="Search requests..."
                 />
               </div>
