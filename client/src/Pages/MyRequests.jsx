@@ -11,22 +11,13 @@ import {
   BarChart3,
   Settings,
 } from "lucide-react";
+import AppLayout from "../layout/AppLayout";
 
 // Data
 
 
-const NAV_ITEMS = [
-  { label: "Dashboard", icon: LayoutDashboard },
-  { label: "New Request", icon: FilePlus2 },
-  { label: "My Requests", icon: ClipboardList, active: true },
-  { label: "Approvals", icon: CheckSquare },
-  { label: "Assignments", icon: Users2 },
-  { label: "Trip Logs", icon: NotebookText },
-  { label: "Vehicles", icon: Car },
-  { label: "Drivers", icon: IdCard },
-  { label: "Reports", icon: BarChart3 },
-  { label: "Admin", icon: Settings },
-];
+
+
 
 const STATUSES = [
   "All",
@@ -58,7 +49,38 @@ const REQUESTS = [
 
 const MyRequests = () => {
   return (
-    <div>MyRequests</div>
+    <div>
+      <AppLayout title="My Requests">
+        <div className="overflow-x-auto mt-6">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">From</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">To</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {REQUESTS.map((request, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.date}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.From}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.To}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.purpose}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[request.status]}`}>
+                      {request.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </AppLayout>
+    </div>
   )
 }
 
