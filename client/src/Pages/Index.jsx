@@ -7,7 +7,9 @@ import { Wrench } from 'lucide-react'
 import { ClipboardList } from 'lucide-react'
 import { Truck } from 'lucide-react'
 import { ChartColumnBig } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 const Index = () => {
+    const navigate = useNavigate()
   return (
     <div>
         <Navbar />
@@ -19,7 +21,7 @@ const Index = () => {
                 <p className="mt-6 max-w-xl text-base md:text-lg text-gray-600 leading-8">
                     Manage vehicle requests, approvals, drivers, and fleet operations in one centralized platform.
                 </p>
-                <button className="bg-green-900 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-green-700">
+                <button onClick={() => navigate("/request-vehicle")} className="bg-green-900 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-green-700">
                    <CarFront /> Request Vehicle
                 </button>
             </div>
