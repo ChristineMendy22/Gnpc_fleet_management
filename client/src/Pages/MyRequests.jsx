@@ -1,24 +1,11 @@
 import { useState, useMemo } from "react";
 import {
-  LayoutDashboard,
-  FilePlus2,
-  ClipboardList,
-  CheckSquare,
-  Users2,
-  NotebookText,
-  Car,
-  IdCard,
-  BarChart3,
-  Settings,
   Plus,
 } from "lucide-react";
 import AppLayout from "../layout/AppLayout";
+import { useNavigate } from "react-router-dom";
 
 // Data
-
-
-
-
 
 const STATUSES = [
   "All",
@@ -40,15 +27,16 @@ const STATUS_STYLES = {
 };
 
 const REQUESTS = [
-  { date: "02 Jun", From: "Head office", To: "Brikama", purpose: "Cartridge delivery", status: "Completed" },
-  { date: "06 Jun", From: "Head office", To: "Banjul Station", purpose: "Printer and cartridge delivery", status: "Completed" },
-  { date: "12 Jun", From: "Home", To: "Basse", purpose: "Trip to delivery a cartridge", status: "Approved" },
-  { date: "20 Jun", From: "Head office", To: "Senegambia", purpose: "Conference", status: "Rejected" },
-  { date: "22 Jun", From: "Home", To: "Sanyang", purpose: "Equipment Delivery", status: "Draft" },
+  { date: "02 Jun 2026", From: "Head office", To: "Brikama", purpose: "Cartridge delivery", status: "Completed" },
+  { date: "06 Jun 2026", From: "Head office", To: "Banjul Station", purpose: "Printer and cartridge delivery", status: "Completed" },
+  { date: "12 Jun 2026", From: "Home", To: "Basse", purpose: "Trip to delivery a cartridge", status: "Approved" },
+  { date: "20 Jun 2026", From: "Head office", To: "Senegambia", purpose: "Conference", status: "Rejected" },
+  { date: "22 Jun 2026", From: "Home", To: "Sanyang", purpose: "Equipment Delivery", status: "Draft" },
 ];
 
 
 const MyRequests = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <AppLayout title="My Requests">
@@ -79,7 +67,7 @@ const MyRequests = () => {
               </div>
             </div>
             
-            <button className="bg-green-900 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-green-700">
+            <button onClick={() => navigate('/create-request')} className="bg-green-900 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-green-700">
               <Plus /> Add Request
             </button>
           </div>

@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import logo from "../assets/Images/GNPClogo.webp";
 const Sidebar = () => {
     const NAV_ITEMS = [
-        { label: "Dashboard", icon: LayoutDashboard },
-        { label: "New Request", icon: FilePlus2 },
-        { label: "My Requests", icon: ClipboardList, active: true },
-        { label: "Approvals", icon: CheckSquare },
+        { label: "Dashboard", icon: LayoutDashboard, url: "/dashboard"},
+        { label: "New Request", icon: FilePlus2,  url: "/create-request"},
+        { label: "My Requests", icon: ClipboardList, active: true, url:"/request-vehicle" },
+        { label: "Approvals", icon: CheckSquare, url: "/approvals"},
         { label: "Assignments", icon: Users2 },
         { label: "Trip Logs", icon: NotebookText },
         { label: "Vehicles", icon: Car },
@@ -24,7 +24,7 @@ const Sidebar = () => {
             <ul className="space-y-4">
                 {NAV_ITEMS.map((item, index) => (
                     <li key={index} className="mb-6">
-                        <Link to={item.path || ""} className="flex items-center gap-2 text-white hover:text-gray-300">
+                        <Link to={item.url || ""} className="flex items-center gap-2 text-white hover:text-gray-300">
                             <item.icon className="h-5 w-5" />
                             <span className="text-sm font-medium">{item.label}</span>
                         </Link>
