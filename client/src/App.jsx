@@ -3,6 +3,7 @@ import Index from './Pages/Index'
 import LoginPage from './Pages/LoginPage'
 import MyRequests from './Pages/MyRequests'
 import NewRequests from './Pages/CreateRequest'
+import Approval from './Pages/Approval'
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path='/request-vehicle' element={<MyRequests/>}/> 
         <Route path='/create-request' element={<NewRequests/>}/>
+        <Route path='/approval' element={<Approval/>}/>
       </Routes>
     </Router>
   )

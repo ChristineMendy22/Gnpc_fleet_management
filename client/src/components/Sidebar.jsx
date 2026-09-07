@@ -6,7 +6,7 @@ const Sidebar = () => {
         { label: "Dashboard", icon: LayoutDashboard, url: "/dashboard"},
         { label: "New Request", icon: FilePlus2,  url: "/create-request"},
         { label: "My Requests", icon: ClipboardList, active: true, url:"/request-vehicle" },
-        { label: "Approvals", icon: CheckSquare, url: "/approvals"},
+        { label: "Approvals", icon: CheckSquare, url: "/Approval"},
         { label: "Assignments", icon: Users2 },
         { label: "Trip Logs", icon: NotebookText },
         { label: "Vehicles", icon: Car },
