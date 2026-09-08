@@ -12,7 +12,7 @@ const RequestApproval = () => {
     ]
   return (
     <div className="bg-white my-6">
-        <div className="flex items-center gap-4 mb-4">
+        <div className="flex items-center gap-4">
             {/* <input
                 type="text"
                 id="search"
@@ -46,22 +46,23 @@ const RequestApproval = () => {
                 <option value="Toyota">Toyota</option>
             </select>
         </div>
-        <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
+        <div className="mt-8 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-4">
+            <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
             <thead className="bg-gray-50">
                 <tr>
-                    <th className="border-y border-gray-300 p-2 text-sm font-medium text-gray-700">Request ID</th>
-                    <th className="border-y border-gray-300 p-2 text-sm font-medium text-gray-700">Staff Name</th>
-                    <th className="border-y border-gray-300 p-2 text-sm font-medium text-gray-700">Department</th>
-                    <th className="border-y border-gray-300 p-2 text-sm font-medium text-gray-700">Vehicle Type</th>
-                    <th className="border-y border-gray-300 p-2 text-sm font-medium text-gray-700">Purpose</th>
-                    <th className="border-y border-gray-300 p-2 text-sm font-medium text-gray-700">Status</th>
-                    <th className="border-y border-gray-300 p-2 text-sm font-medium text-gray-700">Actions</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Request ID</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Staff Name</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Department</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle Type</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
             </thead>
              <tbody className="bg-white divide-y divide-gray-200">
                 {/* Table rows would go here */}
                 {REQUESTAPPROVALS.map((request, index) => (
-                    <tr key={index} className="border-b border-gray-300">
+                    <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.requestId}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.staffName}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.department}</td>
@@ -80,7 +81,7 @@ const RequestApproval = () => {
                 ))}
             </tbody>
         </table>
-        
+        </div>
     </div>
   )
 }
