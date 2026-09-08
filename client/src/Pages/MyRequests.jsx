@@ -4,27 +4,10 @@ import {
 } from "lucide-react";
 import AppLayout from "../layout/AppLayout";
 import { useNavigate } from "react-router-dom";
+import { STATUS_STYLES, STATUSES } from "../data/dummyData";
 
 // Data
 
-const STATUSES = [
-  "All",
-  "Completed",
-  "Approved",
-  "Assigned",
-  "Pending",
-  "Rejected",
-  "Draft",
-];
-
-const STATUS_STYLES = {
-  Completed: "bg-emerald-100 text-emerald-700",
-  Approved: "bg-sky-100 text-sky-700",
-  Assigned: "bg-blue-100 text-blue-800",
-  Pending: "bg-amber-100 text-amber-700",
-  Rejected: "bg-rose-100 text-rose-700",
-  Draft: "bg-slate-200 text-slate-600",
-};
 
 const REQUESTS = [
   { date: "02 Jun 2026", From: "Head office", To: "Brikama", purpose: "Cartridge delivery", status: "Completed" },
@@ -71,7 +54,7 @@ const MyRequests = () => {
               <Plus /> Add Request
             </button>
           </div>
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
