@@ -13,13 +13,6 @@ const RequestApproval = () => {
   return (
     <div className="bg-white my-6">
         <div className="flex items-center gap-4">
-            {/* <input
-                type="text"
-                id="search"
-                className="w-66 border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                placeholder="Search requests..."
-            /> */}
-
             {/* Search bar */}
               <div className="flex items-center gap-2">
                 <label htmlFor="search" className="text-sm font-medium text-gray-700">Search:</label>
@@ -29,22 +22,28 @@ const RequestApproval = () => {
                   placeholder="Search requests..."
                 />
               </div>
-            <select className="w-66 border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                <option value="">All Departments</option>
-                <option value="IT" onClick>IT</option>
-                <option value="HR">HR</option>
-                <option value="Finance">Finance</option>
-                <option value="Operations">Operations</option>
-                <option value="Commance">Commance</option>
-            </select>
-            <select className="w-66 border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                <option value="">All Vehicles</option>
-                <option value="Sedan">Sedan</option>
-                <option value="SUV">SUV</option>
-                <option value="Truck">Truck</option>
-                <option value="Van">Van</option>
-                <option value="Toyota">Toyota</option>
-            </select>
+              <div className="flex items-center gap-2">
+                <label htmlFor="department" className="text-sm font-medium text-gray-700">Department:</label>
+                <select className="w-auto border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    <option value="">All Departments</option>
+                    <option value="IT" onClick>IT</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Operations">Operations</option>
+                    <option value="Commance">Commance</option>
+                </select>
+                </div>
+                <div className="flex items-center gap-2">
+                <label htmlFor="vehicle" className="text-sm font-medium text-gray-700">Vehicle:</label>
+                <select className="w-auto border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                    <option value="">All Vehicles</option>
+                    <option value="Sedan">Sedan</option>
+                    <option value="SUV">SUV</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Van">Van</option>
+                    <option value="Toyota">Toyota</option>
+                </select>
+                </div>
         </div>
         <div className="mt-8 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-4">
             <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
