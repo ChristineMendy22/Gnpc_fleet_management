@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import Logo from '../assets/Images/logo.jpg'
+import Logo from '../assets/Images/gnpc-logo.jpg'
 import { House, User } from 'lucide-react'
 
 const Navbar = () => {
@@ -9,7 +9,7 @@ const Navbar = () => {
             <div className="relative flex h-16 items-center justify-between">
                 {/* Logo */}
                 <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                    <img src={Logo} alt="Logo" className="h-8 w-auto" />
+                    <img src={Logo} alt="Logo" className="h-10 w-auto" />
                 </div>
 
                 {/* Navigation Links */}

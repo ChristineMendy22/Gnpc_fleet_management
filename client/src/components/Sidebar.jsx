@@ -1,6 +1,6 @@
 import { BarChart3, Car, CheckSquare, ClipboardList, FilePlus2, IdCard, LayoutDashboard, NotebookText, Settings, Users2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import logo from "../assets/Images/GNPClogo.webp";
+import logo from "../assets/Images/gnpc-logo.jpg";
 const Sidebar = () => {
     const NAV_ITEMS = [
         { label: "Dashboard", icon: LayoutDashboard, url: "/dashboard"},
