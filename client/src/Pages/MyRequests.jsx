@@ -37,6 +37,7 @@ const MyRequests = () => {
                 />
               </div>
 
+              {/* Status filter */}
               <div className="flex items-center gap-2">
                 <label htmlFor="status" className="text-sm font-medium text-gray-700">  Status:</label>
                 <select
