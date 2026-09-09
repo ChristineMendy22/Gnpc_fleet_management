@@ -37,7 +37,7 @@ const AppLayout = ({title, children}) => {
                 )}
             </header>
             {/* Main content goes here */}
-            <main className="p-4 flex-1" onClick={() => setMenuOpen(!menuOpen)}>
+            <main className="p-4 flex-1" onClick={() => setMenuOpen(false)}>
               {children}
             </main>
         </div>
