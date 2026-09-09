@@ -8,7 +8,6 @@ import Dashboard from './Pages/Dashboard'
 import Assignment from './Pages/Assignment'
 import Trips from './Pages/Trips'
 
-
 function App() {
   
 
