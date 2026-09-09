@@ -68,7 +68,12 @@ const Dashboard = () => {
   
             {/* Fleet Utilization Bar Charts */}
             <div className="col-span-2 bg-white rounded-lg border p-4 border-gray-200 shadow">
-
+              <div className="flex justify-between items-start">  
+                <div>
+                  <div className="text-sm font-semibold text-gray-800">Fleet Utilization</div>
+                  <div className="text-xs text-gray-400">Utilization of each day</div>
+                </div>
+              </div>
               {/* / ResponsiveContainer makes the chart scale with its parent element */}
               <div style={{ width: '100%', height: 300 }}>
                 <ResponsiveContainer>
@@ -92,7 +97,6 @@ const Dashboard = () => {
               </div>
               
               {/* Fleet Status Pie Chart showing percentage of available vehicles, inuse vehicles and maintenance vehicles */}
-              
               <div style={{ width: "100%", height: 300, backgroundColor: "#fff", padding: "10px", borderRadius: "8px" }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -116,6 +120,18 @@ const Dashboard = () => {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
+            </div>
+          </div>
+
+          {/* Trips that need attention and Upcoming Trips */}
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <div className="bg-white rounded-lg border p-4 border-gray-200 shadow">
+              <h3 className="text-md font-medium text-gray-800 mb-2">Trips that need attention</h3>
+              <p className="text-sm text-gray-600">This is the content for trips that need attention.</p>
+            </div>
+            <div className="bg-white rounded-lg border p-4 border-gray-200 shadow">
+              <h3 className="text-md font-medium text-gray-800 mb-2">Upcoming Trips</h3>
+              <p className="text-sm text-gray-600">This is the content for upcoming trips.</p>
             </div>
           </div>
     </AppLayout>
