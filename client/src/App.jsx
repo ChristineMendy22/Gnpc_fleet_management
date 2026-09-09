@@ -6,6 +6,7 @@ import NewRequests from './Pages/CreateRequest'
 import Approval from './Pages/Approval'
 import Dashboard from './Pages/Dashboard'
 import Assignment from './Pages/Assignment'
+import Trips from './Pages/Trips'
 
 function App() {
   
