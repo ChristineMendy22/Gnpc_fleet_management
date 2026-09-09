@@ -79,13 +79,8 @@ const RequestApproval = () => {
             </thead>
              <tbody className="bg-white divide-y divide-gray-200">
                 {/* Table rows would go here */}
-<<<<<<< Updated upstream
                 {REQUESTAPPROVALS.map((request, index) => (
                     <tr key={index}>
-=======
-                {requests.map((request) => (
-                    <tr key={request.requestId} className="border-b border-gray-300">
->>>>>>> Stashed changes
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.requestId}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.staffName}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.department}</td>

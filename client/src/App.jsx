@@ -4,12 +4,10 @@ import LoginPage from './Pages/LoginPage'
 import MyRequests from './Pages/MyRequests'
 import NewRequests from './Pages/CreateRequest'
 import Approval from './Pages/Approval'
-<<<<<<< Updated upstream
 import Dashboard from './Pages/Dashboard'
-=======
 import Assignment from './Pages/Assignment'
 import Trips from './Pages/Trips'
->>>>>>> Stashed changes
+
 
 function App() {
   

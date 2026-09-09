@@ -1,6 +1,6 @@
 import React from 'react'
 import AppLayout from '../layout/AppLayout'
-import { AVAILABILITY, VEHICLES, VEHICLE_STATUS_STYLES } from '../data/dummyData'
+import { AVAILABILITY, VEHICLES, } from '../data/dummyData'
 
 
 const Assignment = () => {
@@ -26,7 +26,7 @@ const Assignment = () => {
                 </div>
             ))}
         </div>
-        <table className="min-w-full divide-y divide-gray-200 border border-gray-200 mt-6">
+        <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
           <thead className="bg-gray-50">
             <tr>
 
@@ -41,16 +41,16 @@ const Assignment = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {VEHICLES.map((vehicle) => (
               <tr key={vehicle.id}>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.name}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{vehicle.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium ${vehicle.status === 'Available' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
                     {vehicle.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.location}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.assignedTo || '-'}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.mileage.toLocaleString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{vehicle.lastService}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{vehicle.location}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{vehicle.assignedTo || '-'}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{vehicle.mileage.toLocaleString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{vehicle.lastService}</td>
               </tr>
             ))}
           </tbody>

@@ -1,7 +1,6 @@
 import AppLayout from '../layout/AppLayout' 
 import RequestApproval from '../components/RequestApproval' 
 
-import React from 'react'
 
 const Approval = () => {
   return (
