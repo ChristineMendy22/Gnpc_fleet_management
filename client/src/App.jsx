@@ -4,7 +4,12 @@ import LoginPage from './Pages/LoginPage'
 import MyRequests from './Pages/MyRequests'
 import NewRequests from './Pages/CreateRequest'
 import Approval from './Pages/Approval'
+<<<<<<< Updated upstream
 import Dashboard from './Pages/Dashboard'
+=======
+import Assignment from './Pages/Assignment'
+import Trips from './Pages/Trips'
+>>>>>>> Stashed changes
 
 function App() {
   
@@ -18,6 +23,8 @@ function App() {
         <Route path='/request-vehicle' element={<MyRequests/>}/> 
         <Route path='/create-request' element={<NewRequests/>}/>
         <Route path='/approval' element={<Approval/>}/>
+        <Route path='/assignment' element={<Assignment/>}/>
+        <Route  path='/trips' element={<Trips/>}/>
       </Routes>
     </Router>
   )

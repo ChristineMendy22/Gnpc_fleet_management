@@ -1,5 +1,7 @@
-import { Check, X } from "lucide-react"
+import { useState } from "react"
+
 import { STATUS_STYLES } from "../data/dummyData"
+import Confirmation from "../components/confirmation"
 
 
 const RequestApproval = () => {
@@ -10,7 +12,24 @@ const RequestApproval = () => {
         {requestId: "REQ-004", staffName: "Alice Brown", department: "Operations", vehicleType: "Van", purpose: "Site Visit", status: "Pending"},
         {requestId: "REQ-005", staffName: "Charlie Davis", department: "IT", vehicleType: "Sedan", purpose: "Client Meeting", status: "Pending"}
     ]
+
+    const [requests, setRequests] = useState(REQUESTAPPROVALS)
+    const [pendingAction, setPendingAction] = useState(null)
+
+    const handleAction = (requestId, action) => {
+        setPendingAction({ requestId, action })
+    }
+    
+
   return (
+    <>
+    {pendingAction && (
+        <Confirmation
+            action={pendingAction.action}
+            onConfirm={() => setPendingAction(null)}
+            onCancel={() => setPendingAction(null)}
+        />
+    )}
     <div className="bg-white my-6">
         <div className="flex items-center gap-4">
             {/* Search bar */}
@@ -60,8 +79,13 @@ const RequestApproval = () => {
             </thead>
              <tbody className="bg-white divide-y divide-gray-200">
                 {/* Table rows would go here */}
+<<<<<<< Updated upstream
                 {REQUESTAPPROVALS.map((request, index) => (
                     <tr key={index}>
+=======
+                {requests.map((request) => (
+                    <tr key={request.requestId} className="border-b border-gray-300">
+>>>>>>> Stashed changes
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.requestId}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.staffName}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.department}</td>
@@ -73,8 +97,8 @@ const RequestApproval = () => {
                             </span>
                         </td>
                         <td className="p-2 text-sm text-gray-700">
-                            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">Approve</button>
-                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-2">Reject</button>
+                            <button onClick={() => handleAction(request.requestId, "approve")} className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">Approve</button>
+                            <button onClick={() => handleAction(request.requestId, "reject")} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded ml-2">Reject</button>
                         </td>
                     </tr>
                 ))}
@@ -82,6 +106,7 @@ const RequestApproval = () => {
         </table>
         </div>
     </div>
+    </>
   )
 }
 
