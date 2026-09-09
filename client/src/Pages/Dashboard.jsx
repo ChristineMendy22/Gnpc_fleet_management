@@ -67,8 +67,8 @@ const Dashboard = () => {
           <div className="grid grid-cols-3 gap-2 mt-3.5">
   
             {/* Fleet Utilization Bar Charts */}
-            <div className="col-span-2 bg-white rounded-lg border p-4 border-gray-200 shadow">
-              <div className="flex justify-between items-start">  
+            <div className="col-span-2 bg-white rounded-lg border border-gray-200 shadow">
+              <div className="flex justify-between items-start p-4">  
                 <div>
                   <div className="text-sm font-semibold text-gray-800">Fleet Utilization</div>
                   <div className="text-xs text-gray-400">Utilization of each day</div>
