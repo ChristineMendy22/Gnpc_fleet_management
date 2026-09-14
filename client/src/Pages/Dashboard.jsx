@@ -1,8 +1,14 @@
 import { Car, CarIcon } from "lucide-react"
 import AppLayout from "../layout/AppLayout"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { useAuth } from "../contexts/AuthContext"
 
 const Dashboard = () => {
+  const { currentUser } = useAuth()
+
+  console.log(currentUser);
+  
+
   const fleetUtilizationData = [
     { name: 'Mon', value: 60 },
     { name: 'Tue', value: 50 },

@@ -26,11 +26,10 @@ export const AVAILABILITY = [
 ];
 
 export const VEHICLES = [
-  { id: "GMC-009", model: "Toyota Corolla", status: "Available", location: "Kanifing Depot", assignedTo: "Amadou Cherno", mileage: "42,300 km", lastService: "3 Aug" },
-  { id: "GMC-014", model: "Toyota Hilux", status: "In use", location: "En route to Brikama", assignedTo: "Ebrima Touray", mileage: "68,120 km", lastService: "20 Jul" },
-  { id: "GMC-021", model: "Toyota Coaster", status: "Available", location: "Kanifing Depot", assignedTo: 'Modou Ceesay', mileage: "91,050 km", lastService: "15 Aug" },
-  { id: "GMC-005", model: "Toyota Corolla", status: "Maintenance", location: "Workshop Bay 2", assignedTo: "Musa Jallow", mileage: "55,400 km", lastService: "In progress" },
-  { id: "GMC-018", model: "Nissan Patrol", status: "Available", location: "Bakau Yard", assignedTo: 'Isatou Jallow', mileage: "33,800 km", lastService: "28 Aug" },
+  { id: "GMC-009", model: "Toyota Corolla", status: "Available", location: "Yundum Station", assignedTo: "Amadou Cherno", mileage: "42,300 km", lastService: "3 Aug" },
+  { id: "GMC-014", model: "Toyota Hilux", status: "In use", location: "Banjul Station", assignedTo: "Ebrima Touray", mileage: "68,120 km", lastService: "20 Jul" },
+  { id: "GMC-021", model: "Toyota Coaster", status: "Out of service", location: "Kanifing Station", assignedTo: 'Modou Ceesay', mileage: "91,050 km", lastService: "15 Aug" },
+  { id: "GMC-005", model: "Toyota Corolla", status: "Maintenance", location: "Brikama Station", assignedTo: "Musa Jallow", mileage: "55,400 km", lastService: "In progress" },
 ];
 
 export const DRIVERS = [
@@ -48,3 +47,11 @@ export const VEHICLE_STATUS_STYLES = {
   Maintenance: "bg-amber-100 text-amber-700",
   "Out of service": "bg-rose-100 text-rose-700",
 };
+
+// Authentication dummy data
+export const USERS = [
+  { username: "musa", password: "admin123", role: "admin"},
+  { username: "ebrima", password: "user123", role: "supervisor"},
+  { username: "ali", password: "user123", role: "driver"},
+  { username: "ousman", password: "user123", role: "driver"},
+]

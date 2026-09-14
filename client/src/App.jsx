@@ -7,6 +7,8 @@ import Approval from './Pages/Approval'
 import Dashboard from './Pages/Dashboard'
 import Assignment from './Pages/Assignment'
 import Trips from './Pages/Trips'
+import ProtectedRoute from './auth/ProtectedRoute'
+import PermissionGuard from './auth/PermissionGuard'
 
 function App() {
   
@@ -14,14 +16,23 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Index />} />
-        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path='/request-vehicle' element={<MyRequests/>}/> 
-        <Route path='/create-request' element={<NewRequests/>}/>
-        <Route path='/approval' element={<Approval/>}/>
-        <Route path='/assignment' element={<Assignment/>}/>
-        <Route  path='/trips' element={<Trips/>}/>
+
+        {/* Protected Routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/request-vehicle" element={<ProtectedRoute><MyRequests /></ProtectedRoute>} />
+        <Route path="/create-request" element={<ProtectedRoute><NewRequests /></ProtectedRoute>} />
+        <Route path="/approval" element={<ProtectedRoute><Approval /></ProtectedRoute>} />
+        <Route path="/assignment" element={
+          <ProtectedRoute> 
+            <PermissionGuard roles={["admin"]}>
+              <Assignment />
+            </PermissionGuard>
+          </ProtectedRoute>} 
+        />
+        <Route  path="/trips" element={<ProtectedRoute><Trips /></ProtectedRoute>} />
       </Routes>
     </Router>
   )
