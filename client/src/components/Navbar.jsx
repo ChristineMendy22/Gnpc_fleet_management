@@ -21,9 +21,6 @@ const Navbar = () => {
                         <Link to="/login" className="flex items-center gap-2 border-2 border-green-900 bg-green-900 text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">
                             <User className="h-5 w-5" /> Login
                         </Link>
-                        <Link to="/" className="flex items-center gap-2 border-2 border-green-900 bg-green-900 text-white hover:bg-green-700 px-3 py-2 rounded-md text-sm font-medium">
-                            <User className="h-5 w-5" /> Register
-                        </Link>
                     </div>
                 </div>
             </div>
