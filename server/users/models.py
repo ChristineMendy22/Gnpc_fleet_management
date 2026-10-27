@@ -25,17 +25,35 @@ class UserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
+    ROLE_CHOICES = (
+        ('admin', 'Admin'),
+        ('supervisor', 'Supervisor'),
+        ('driver', 'Driver'),
+    )
+
+    DEPARTMENT_CHOICES = (
+        ('operations', 'Operations'),
+        ('iT', 'IT'),
+        ('hr', 'HR'),
+        ('accounting', 'Accounting'),
+        ('audit', 'Audit'),
+    )
+
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
+    role = models.CharField(max_length=30, choices=ROLE_CHOICES, default='driver')
+    department = models.CharField(max_length=30, choices=DEPARTMENT_CHOICES, default='operations')
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+
+    
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name']
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
