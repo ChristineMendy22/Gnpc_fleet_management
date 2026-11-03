@@ -48,7 +48,8 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     const refreshToken = localStorage.getItem('refresh_token');
     try {
-      await api.post('auth/logout/', { refresh: refreshToken });
+    //   await api.post('auth/logout/', { refresh: refreshToken });
+        await api.post('auth/token/refresh/', { refresh: refreshToken });
     } catch (error) {
       console.error(error);
     } finally {
