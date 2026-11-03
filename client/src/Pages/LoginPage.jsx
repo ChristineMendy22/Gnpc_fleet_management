@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import logo from '../assets/Images/logo.jpg'
-import { User, Lock } from "lucide-react";
+import { User, Lock, Loader } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const LoginPage = () => {
-  const { login } = useAuth();
-  const [username, setUsername] = useState('')
+  const { login, error, setError } = useAuth();
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
+  // const [error, setError] = useState(null)
   
   const navigate = useNavigate()
 
@@ -16,19 +17,27 @@ const LoginPage = () => {
     e.preventDefault()
     
     try {
-      const success = login(username, password)
+      const payload = { email, password };
+      setSubmitting(true);
+      const success = login(payload);
       if (success) {
         navigate('/dashboard')
       } else {
-        setError('Invalid username or password')
+        setError('Invalid email or password')
       }
     } catch (err) {
       setError(err)
     } finally {
-      setUsername('')
-      setPassword('')
+      setSubmitting(false);
+      // setEmail('')
+      // setPassword('')
     }
+
+    // console.log(error);
   }
+
+  
+  
  
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
@@ -52,10 +61,10 @@ const LoginPage = () => {
             <User className="absolute left-4 h-4 w-4 mt-3 text-gray-400"/>
             
             <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               type="text"
-              placeholder="Username"
+              placeholder="Email"
               className="w-full border border-gray-300 rounded-xl pl-12 pr-4 py-3 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-200"
             />
           </div>
@@ -89,10 +98,11 @@ const LoginPage = () => {
             </a>
           </div>
           <button
-
+            disabled={!email || !password}
             type="submit"
-            className="w-full bg-green-900 text-white py-3 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className={`w-full bg-green-900 text-white py-3 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 *: ${!email || !password ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
+            {submitting ? <Loader className="animate-spin" /> : null}
             Sign In
           </button>
         </form>

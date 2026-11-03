@@ -9,7 +9,7 @@ const UserAvatar = ({ currentUser }) => {
     <div className="flex items-center gap-2">
         <User className="h-5 w-5" />
         <span className="text-sm font-medium text-gray-700">
-          {currentUser?.username}
+          {currentUser?.first_name} {currentUser?.last_name}
         </span>
     </div>
   )
@@ -18,12 +18,17 @@ const UserAvatar = ({ currentUser }) => {
 const AppLayout = ({title, children}) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const { currentUser, logout } = useAuth()
+  // const { currentUser } = useAuth()
+
   const navigate = useNavigate()
   const handleLogout = () => {
     // Implement logout logic here
     logout()
     navigate("/login")
   }
+
+  // console.log(currentUser);
+  
   return (
     <div className="flex min-h-screen">
         <Sidebar />

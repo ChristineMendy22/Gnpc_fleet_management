@@ -1,12 +1,16 @@
 import { Navigate, useNavigate } from "react-router-dom"
 import { useAuth } from "../contexts/AuthContext"
-import { useEffect } from "react"
 
 const ProtectedRoute = ({ children }) => {
     const { currentUser } = useAuth()
     
-    if (!currentUser) return <Navigate to={"/login"} />
-    return children
+    // If NOT logged in, kick them out to the login page
+    if (!currentUser) {
+        return <Navigate to="/login" replace />;
+    }
+    
+    // If logged in, let them see the private page
+    return children;
 }  
 
 export default ProtectedRoute
