@@ -11,6 +11,7 @@ import PermissionGuard from './auth/PermissionGuard'
 import TripLogs from './Pages/TripLogs'
 import Trips from './Pages/Trips'
 import Admin from './Pages/Admin'
+import PublicOnlyRoute from './auth/PublicOnlyRoute'
 
 function App() {
   
@@ -20,7 +21,11 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path='/' element={<Index />} />
-        <Route path='/login' element={<LoginPage />} />
+        <Route path="/login" element={
+          <PublicOnlyRoute>
+            <LoginPage />
+          </PublicOnlyRoute>
+        } />
 
         {/* Protected Routes */}
         <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
