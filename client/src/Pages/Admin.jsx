@@ -1,25 +1,58 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AppLayout from '../layout/AppLayout'
 import { Car, Plus, Wrench } from 'lucide-react'
 import { STATUS_STYLES, VEHICLES } from '../data/dummyData'
+import { useAuth } from '../contexts/AuthContext'
+import api from '../api/api'
 
 const Admin = () => {
     const [activeTab, setActiveTab] = useState('user')
-    const [users, setUsers] = useState([
-        {Name:"Ma Nyima Gibba", Email:"nyimagibba@gmail.com", Role:"Station Supervisor", Department:"IT", Status:"Active"},
-        {Name:"Lucy Gomez", Email:"lucygomez@gmail.com", Role:"Audit Assistent", Department:"Audit", Status:"Active"},
-        {Name:"Kaddy Faal", Email:"kaddyfaal@gmail.com", Role:"Audit Head", Department:"Audit", Status:"Active"},
-        {Name:"Lamin Badjie", Email:"laminbadjie@gmail.com", Role:"Requester", Department:"Operation", Status:"Active"},
-        {Name:"Isatou Mendy", Email:"isatoumendy03@gmail.com", Role:"Dept head", Department:"Acounts", Status:"Active"},
-    ])
+    const [users, setUsers] = useState([])
+    const [message, setMessage] = useState('')
+
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            setLoading(true);
+            try {
+                const response = await api.get('auth/users/');
+                setUsers(response.data);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUsers();
+    }, []); 
+
     const [showUserForm, setShowUserForm] = useState(false)
+
+    const [roleOptions, setRoleOptions] = useState([
+        "admin",
+        "supervisor",
+        "driver",
+    ])
+
+    const [departmentOptions, setDepartmentOptions] = useState([
+        "operations",
+        "iT",
+        "hr",
+        "accounting",
+        "audit",
+    ])
+
     const [newUser, setNewUser] = useState({
-        Name: '',
-        Email: '',
-        Role: '',
-        Department: '',
-        Status: 'Active',
+        first_name: "",
+        last_name: "",
+        email: "",
+        role: "",
+        department: "",
+        is_active: true,
+        password: ""
     })
+    
     const [departments, setDepartments] = useState([
         {Department: "IT", Supervisor:"Muhammeh Ceesay"},
         {Department:"Commance", Supervisor:"Lamin Ceesay"},
@@ -28,6 +61,7 @@ const Admin = () => {
         {Department:"HR", Supervisor:"Mr Gaye"},
         {Department:"HSSE", Supervisor:"Lawrence"},
     ])
+
     const [showDepartmentForm, setShowDepartmentForm] = useState(false)
     const [newDepartment, setNewDepartment] = useState({ Department: '', Supervisor: '' })
 
@@ -43,20 +77,54 @@ const Admin = () => {
         setShowDepartmentForm(false)
     }
 
-    const handleAddUser = (event) => {
+    const handleAddUser = async (event) => {
         event.preventDefault()
-        if (!newUser.Name.trim() || !newUser.Email.trim() || !newUser.Role.trim() || !newUser.Department.trim()) return
+        if (!newUser.first_name.trim() || !newUser.last_name.trim() || !newUser.email.trim() || !newUser.password.trim()) return
+        try {
+            await api.post('auth/users/', newUser);
+            setUsers([...users, newUser]); // Add the newly created user to the users state
+            setMessage('User added successfully!');
+        } catch (error) {
+            console.error('Error adding user:', error);
+            setMessage('Error adding user.');
+        } 
 
-        setUsers([...users, {
-            Name: newUser.Name.trim(),
-            Email: newUser.Email.trim(),
-            Role: newUser.Role.trim(),
-            Department: newUser.Department.trim(),
-            Status: newUser.Status,
-        }])
-        setNewUser({ Name: '', Email: '', Role: '', Department: '', Status: 'Active' })
+        setNewUser({ first_name: '', last_name: '', email: '', role: '', department: '', is_active: true })
         setShowUserForm(false)
     }
+
+    const handleEditUser = async (userId) => {
+        setShowUserForm(true)
+        const userToEdit = await api.get(`auth/users/${userId}/`);
+        console.log(userToEdit);
+        
+        setNewUser(userToEdit.data)
+    }
+
+    setTimeout(() => {
+        setMessage('');
+    }, 5000);
+
+    // console.log(users);
+    
+    const STATUS_STYLES = {
+        true: "bg-emerald-100 text-emerald-700",
+        false: "bg-red-100 text-red-700",
+    };
+
+
+    const UserStatus = ({ status }) => {
+        return (
+            <span
+            className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${
+                STATUS_STYLES[status] ?? 'bg-emerald-100 text-emerald-700'
+            }`}
+            >
+            {status ? 'Active' : 'Inactive'}
+            </span>
+        );
+    };
+
   return (
     <AppLayout title={"Admin"}>
         {/* <div className="mt-8 flex gap-20 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-6"> */}
@@ -114,45 +182,72 @@ const Admin = () => {
                         <Plus size={16} /> Add Users
                     </button>
                 </div>
+                
                 {showUserForm && (
                     <form onSubmit={handleAddUser} className="grid grid-cols-1 gap-3 border-y border-gray-200 bg-gray-50 p-4 md:grid-cols-2">
                         <input
-                            value={newUser.Name}
-                            onChange={(event) => setNewUser({ ...newUser, Name: event.target.value })}
-                            placeholder="Full name"
+                            value={newUser.first_name}
+                            onChange={(event) => setNewUser({ ...newUser, first_name: event.target.value })}
+                            placeholder="First name"
                             className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
                         <input
-                            type="email"
-                            value={newUser.Email}
-                            onChange={(event) => setNewUser({ ...newUser, Email: event.target.value })}
+                            value={newUser.last_name}
+                            onChange={(event) => setNewUser({ ...newUser, last_name: event.target.value })}
+                            placeholder="Last name"
+                            className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                        />
+                        <input
+                            value={newUser.email}
+                            onChange={(event) => setNewUser({ ...newUser, email: event.target.value })}
                             placeholder="Email address"
                             className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
                         <input
-                            value={newUser.Role}
-                            onChange={(event) => setNewUser({ ...newUser, Role: event.target.value })}
-                            placeholder="Role"
+                            value={newUser.password}
+                            type='password'
+                            onChange={(event) => setNewUser({ ...newUser, password: event.target.value })}
+                            placeholder="Password"
                             className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         />
-                        <input
-                            value={newUser.Department}
-                            onChange={(event) => setNewUser({ ...newUser, Department: event.target.value })}
-                            placeholder="Department"
-                            className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
+                        
+                        <select value={newUser.role} onChange={(event) => setNewUser({ ...newUser, role: event.target.value })} className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option value="">Select role</option>
+                            {roleOptions.map((role) => (
+                                <option key={role} value={role}>
+                                    {role.charAt(0).toUpperCase() + role.slice(1)}
+                                </option>
+                            ))}
+                        </select>
+
+                        <select value={newUser.department} onChange={(event) => setNewUser({ ...newUser, department: event.target.value })} className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option value="">Select department</option>
+                            {departmentOptions.map((department) => (
+                                <option key={department} value={department}>
+                                    {department.charAt(0).toUpperCase() + department.slice(1)}
+                                </option>
+                            ))}
+                        </select>
+
                         <select
-                            value={newUser.Status}
-                            onChange={(event) => setNewUser({ ...newUser, Status: event.target.value })}
+                            value={newUser.is_active}
+                            onChange={(event) => setNewUser({ ...newUser, is_active: event.target.value })}
                             className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                         >
-                            <option>Active</option>
-                            <option>Inactive</option>
+                            <option value={true}>Active</option>
+                            <option value={false}>Inactive</option>
                         </select>
+
                         <button type="submit" className="rounded-md bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-900">
                             Save User
                         </button>
                     </form>
+                )}
+                
+                {message && (
+                    <div className={`mt-4 p-2 rounded-md text-sm ${message.includes('successfully') ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                        {message}
+                    </div>
                 )}
                 <div className="mt-8 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-4">
                     <table className="min-w-full divide-y divide-gray-200 border border-gray-200">
@@ -167,24 +262,36 @@ const Admin = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map((request, index) => (
-
-                                <tr key={index}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.Name}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.Email}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.Role}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.Department}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[request.Status] ?? "bg-emerald-100 text-emerald-700"}`}>
-                                            {request.Status}
-                                        </span>
-                                    </td>
-                                    <td className="p-2 text-sm text-gray-700">
-                                        <button className="text-gray-700 font-bold py-1 px-2 rounded">Edit</button>
-                                    
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                        Loading users...
                                     </td>
                                 </tr>
-                            ))}
+                            ) : users.length === 0 ? (
+                                <tr>
+                                    <td colSpan="6" className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                                        No users found.
+                                    </td>
+                                </tr>
+                            ) : (
+                                users.map((user) => (
+                                
+                                
+                                <tr key={user.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.first_name}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.role}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.department}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <UserStatus status={user.is_active} />
+                                    </td>
+                                    <td className="p-2 text-sm text-gray-700">
+                                        <button onClick={handleEditUser} className="text-gray-700 font-bold py-1 px-2 rounded">Edit</button>
+                                    </td>
+                                </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
