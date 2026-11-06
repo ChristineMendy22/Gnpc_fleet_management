@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AppLayout from '../layout/AppLayout'
 import { Car, Plus, Wrench } from 'lucide-react'
-import { STATUS_STYLES, VEHICLES } from '../data/dummyData'
-import { useAuth } from '../contexts/AuthContext'
+import {VEHICLES } from '../data/dummyData'
 import api from '../api/api'
 
 const Admin = () => {
     const [activeTab, setActiveTab] = useState('user')
     const [users, setUsers] = useState([])
     const [message, setMessage] = useState('')
+    const [selectedUser, setSelectedUser]  = useState(null)
+    const [mode, setMode] = useState('add') // 'add' or 'edit'
 
     const [loading, setLoading] = useState(true)
 
@@ -43,15 +44,6 @@ const Admin = () => {
         "audit",
     ])
 
-    const [newUser, setNewUser] = useState({
-        first_name: "",
-        last_name: "",
-        email: "",
-        role: "",
-        department: "",
-        is_active: true,
-        password: ""
-    })
     
     const [departments, setDepartments] = useState([
         {Department: "IT", Supervisor:"Muhammeh Ceesay"},
@@ -77,28 +69,17 @@ const Admin = () => {
         setShowDepartmentForm(false)
     }
 
-    const handleAddUser = async (event) => {
-        event.preventDefault()
-        if (!newUser.first_name.trim() || !newUser.last_name.trim() || !newUser.email.trim() || !newUser.password.trim()) return
-        try {
-            await api.post('auth/users/', newUser);
-            setUsers([...users, newUser]); // Add the newly created user to the users state
-            setMessage('User added successfully!');
-        } catch (error) {
-            console.error('Error adding user:', error);
-            setMessage('Error adding user.');
-        } 
-
-        setNewUser({ first_name: '', last_name: '', email: '', role: '', department: '', is_active: true })
-        setShowUserForm(false)
+    const handleAddUser = () => {
+        setSelectedUser(null)
+        setMode('add')
+        setShowUserForm(true)
     }
 
-    const handleEditUser = async (userId) => {
+    const handleEditUser = (user) => {
+        setSelectedUser(user)
+        setMode('edit')
         setShowUserForm(true)
-        const userToEdit = await api.get(`auth/users/${userId}/`);
-        console.log(userToEdit);
-        
-        setNewUser(userToEdit.data)
+        console.log('selected', selectedUser);
     }
 
     setTimeout(() => {
@@ -124,6 +105,133 @@ const Admin = () => {
             </span>
         );
     };
+    
+    const handleSubmit = async (e, userForm) => {
+        e.preventDefault();
+
+        console.log("User Form", userForm);
+        
+        
+        if (mode === 'add') {
+            try {
+                const response = await api.post('auth/users/', userForm);
+                console.log("");
+                setUsers([...users, response.data]);
+                setMessage('User added successfully!');
+                setShowUserForm(false);
+            } catch (error) {
+                console.error("Error adding user:", error);
+            }
+        } else if (mode === 'edit') {
+            console.log('Editing user:', selectedUser); 
+            try {
+                const response = await api.put(`auth/users/${selectedUser.id}/`, userForm);
+                const updatedUser = response.data;
+                setUsers(users.map((user) => (user.id === selectedUser.id ? updatedUser : user)));
+                setMessage('User updated successfully!');
+                setShowUserForm(false);
+            } catch (error) {
+                console.error("Error updating user:", error);
+            }
+        }else {
+            console.log('Invalid mode:', mode);
+        }
+    }
+
+    const UserForm = ({onSubmit, selectedUser, mode}) => {
+        const [userForm, setUserForm] = useState({
+            first_name: "",
+            last_name: "",
+            email: "",
+            role: "",
+            department: "",
+            is_active: true,
+            password: ""
+        })
+
+        useEffect(()=> {
+            setUserForm({
+                first_name: selectedUser?.first_name || "",
+                last_name: selectedUser?.last_name || "",
+                email: selectedUser?.email || "",
+                role: selectedUser?.role || "",
+                department: selectedUser?.department || "",
+                is_active: selectedUser?.is_active || true,
+            })
+        }, [])
+
+        const handleSubmitForm = (e) => {
+            e.preventDefault();
+            onSubmit(e, userForm);
+        }
+
+        return (
+            <form onSubmit={handleSubmitForm} className="grid grid-cols-1 gap-3 border-y border-gray-200 bg-gray-50 p-4 md:grid-cols-2">
+                <input
+                    value={userForm.first_name}
+                    onChange={(e) => setUserForm({ ...userForm, first_name: e.target.value })}
+                    name="first_name"
+                    placeholder="First name"
+                    className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <input
+                    value={userForm.last_name}
+                    onChange={(e) => setUserForm({ ...userForm, last_name: e.target.value })}
+                    name="last_name"
+                    placeholder="Last name"
+                    className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <input
+                    value={userForm.email}
+                    onChange={(e) => setUserForm({ ...userForm, email: e.target.value })}
+                    name="email"
+                    placeholder="Email address"
+                    className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                {mode === 'add' && (
+                    <input
+                        value={userForm.password || ''}
+                        type='password'
+                        onChange={(e) => setUserForm({ ...userForm, password: e.target.value })}
+                        name="password"
+                        placeholder="Password"
+                        className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                    />
+                )}
+                <select value={userForm.role || ''} onChange={(e) => setUserForm({ ...userForm, role: e.target.value })} name="role" className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="">Select role</option>
+                    {roleOptions.map((role) => (
+                        <option key={role} value={role}>
+                            {role.charAt(0).toUpperCase() + role.slice(1)}
+                        </option>
+                    ))}
+                </select>
+
+                <select value={userForm.department || ''} onChange={(e) => setUserForm({ ...userForm, department: e.target.value })} name="department" className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <option value="">Select department</option>
+                    {departmentOptions.map((department) => (
+                        <option key={department} value={department}>
+                            {department.charAt(0).toUpperCase() + department.slice(1)}
+                        </option>
+                    ))}
+                </select>
+
+                <select
+                    value={userForm.is_active || ''}
+                    onChange={(e) => setUserForm({ ...userForm, is_active: e.target.value })}
+                    name="is_active"
+                    className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                >
+                    <option value={true}>Active</option>
+                    <option value={false}>Inactive</option>
+                </select>
+
+                <button type="submit" className="rounded-md bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-900">
+                    {mode === 'add' ? 'Add User' : 'Update User'}
+                </button>
+            </form>
+        )
+    }
 
   return (
     <AppLayout title={"Admin"}>
@@ -158,12 +266,6 @@ const Admin = () => {
             <div className='overflow-x-auto mt-6'>
 
                 <div className="flex flex-col gap-3 bg-white sm:flex-row sm:items-center sm:justify-between">
-                    {/* <input
-                        id="search"
-                        className="w-full border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:w-96"
-                        placeholder="Search Users..."
-                    /> */}
-
                      {/* Search bar */}
                     <div className="flex items-center gap-2">
                         <label htmlFor="search" className="text-sm font-medium text-gray-700">Search:</label>
@@ -176,7 +278,7 @@ const Admin = () => {
 
                     <button
                         type="button"
-                        onClick={() => setShowUserForm(!showUserForm)}
+                        onClick={handleAddUser}
                         className="bg-green-900 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-green-700"
                     >
                         <Plus size={16} /> Add Users
@@ -184,64 +286,7 @@ const Admin = () => {
                 </div>
                 
                 {showUserForm && (
-                    <form onSubmit={handleAddUser} className="grid grid-cols-1 gap-3 border-y border-gray-200 bg-gray-50 p-4 md:grid-cols-2">
-                        <input
-                            value={newUser.first_name}
-                            onChange={(event) => setNewUser({ ...newUser, first_name: event.target.value })}
-                            placeholder="First name"
-                            className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
-                        <input
-                            value={newUser.last_name}
-                            onChange={(event) => setNewUser({ ...newUser, last_name: event.target.value })}
-                            placeholder="Last name"
-                            className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
-                        <input
-                            value={newUser.email}
-                            onChange={(event) => setNewUser({ ...newUser, email: event.target.value })}
-                            placeholder="Email address"
-                            className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
-                        <input
-                            value={newUser.password}
-                            type='password'
-                            onChange={(event) => setNewUser({ ...newUser, password: event.target.value })}
-                            placeholder="Password"
-                            className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                        />
-                        
-                        <select value={newUser.role} onChange={(event) => setNewUser({ ...newUser, role: event.target.value })} className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                            <option value="">Select role</option>
-                            {roleOptions.map((role) => (
-                                <option key={role} value={role}>
-                                    {role.charAt(0).toUpperCase() + role.slice(1)}
-                                </option>
-                            ))}
-                        </select>
-
-                        <select value={newUser.department} onChange={(event) => setNewUser({ ...newUser, department: event.target.value })} className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
-                            <option value="">Select department</option>
-                            {departmentOptions.map((department) => (
-                                <option key={department} value={department}>
-                                    {department.charAt(0).toUpperCase() + department.slice(1)}
-                                </option>
-                            ))}
-                        </select>
-
-                        <select
-                            value={newUser.is_active}
-                            onChange={(event) => setNewUser({ ...newUser, is_active: event.target.value })}
-                            className="border border-gray-300 p-2 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-                        >
-                            <option value={true}>Active</option>
-                            <option value={false}>Inactive</option>
-                        </select>
-
-                        <button type="submit" className="rounded-md bg-green-700 px-4 py-2 text-sm font-medium text-white hover:bg-green-900">
-                            Save User
-                        </button>
-                    </form>
+                    <UserForm mode={selectedUser ? 'edit' : 'add'} selectedUser={selectedUser} onSubmit={handleSubmit}  />
                 )}
                 
                 {message && (
@@ -287,7 +332,7 @@ const Admin = () => {
                                         <UserStatus status={user.is_active} />
                                     </td>
                                     <td className="p-2 text-sm text-gray-700">
-                                        <button onClick={handleEditUser} className="text-gray-700 font-bold py-1 px-2 rounded">Edit</button>
+                                        <button onClick={() => handleEditUser(user)} className="text-gray-700 font-bold py-1 px-2 rounded">Edit</button>
                                     </td>
                                 </tr>
                                 ))
