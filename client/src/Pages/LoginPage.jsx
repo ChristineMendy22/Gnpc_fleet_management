@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const LoginPage = () => {
-  const { login, error, setError } = useAuth();
+  const { login, error } = useAuth();
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -13,27 +13,20 @@ const LoginPage = () => {
   
   const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
-    
+
+    setSubmitting(true);
     try {
-      const payload = { email, password };
-      setSubmitting(true);
-      const success = login(payload);
+      const success = await login({ email, password });
       if (success) {
         navigate('/dashboard')
-      } else {
-        setError('Invalid email or password')
       }
-    } catch (err) {
-      setError(err)
+    } catch {
+      // login reports authentication errors through AuthContext.
     } finally {
       setSubmitting(false);
-      // setEmail('')
-      // setPassword('')
     }
-
-    // console.log(error);
   }
 
   

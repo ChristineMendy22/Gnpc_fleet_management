@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext"
 const Dashboard = () => {
   const { currentUser } = useAuth()
 
-  console.log(currentUser);
+  // console.log(currentUser);
   
 
   const fleetUtilizationData = [

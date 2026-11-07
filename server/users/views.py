@@ -73,6 +73,29 @@ class UserDetailView(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class UserDetailView(APIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get_object(self, pk):
+        try:
+            return MyUser.objects.get(pk=pk)
+        except MyUser.DoesNotExist:
+            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    def get(self, request, pk):
+        user = self.get_object(pk)
+        serializer = MyUserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        serializer = MyUserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 # Login view using JWT
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer

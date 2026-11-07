@@ -20,6 +20,7 @@ class UserManager(BaseUserManager):
         user = self.create_user(email, password, **extra_fields)
         user.is_admin = True
         user.is_staff = True
+        user.role = "admin"
         user.save(using=self._db)
         return user
 
