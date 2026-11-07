@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-// import { USERS } from '../data/dummyData';
 import api from '../api/api';
 
 const AuthContext = createContext();
@@ -7,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Added to keep tracking state during initial bootup
 
   useEffect(() => {
     const storedUser = localStorage.getItem('auth_user');
@@ -17,11 +17,13 @@ export const AuthProvider = ({ children }) => {
         console.error("Error parsing stored user data", e);
       }
     }
+    setIsLoading(false); // Initial storage inspection complete
   }, []);
 
   const login = async (payload) => {
     try {
-      setError(null); // Clear previous errors on a new login attempt
+      setError(null); 
+      // Resolves perfectly to http://127.0.0
       const response = await api.post('auth/token/', payload);
       
       const user = response.data?.user;
@@ -34,25 +36,26 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('refresh_token', refreshToken);
         
         setCurrentUser(user);
-        return true; // Successfully logged in
+        return true; 
       }
       
       return false;
     } catch (error) {
       console.error(error);
       setError(error.response?.data?.detail || 'Login failed');
-      return false; // Login failed
+      return false; 
     }
   };
 
   const logout = async () => {
     const refreshToken = localStorage.getItem('refresh_token');
     try {
-    //   await api.post('auth/logout/', { refresh: refreshToken });
-        await api.post('auth/token/refresh/', { refresh: refreshToken });
+      // OPTION A: If your Django app uses simplejwt.token_blacklist, uncomment this:
+      // await api.post('auth/logout/', { refresh: refreshToken });
     } catch (error) {
-      console.error(error);
+      console.error("Backend logout clearance failed:", error);
     } finally {
+      // Always purge local state regardless of whether backend request succeeds or fails
       localStorage.removeItem('auth_user');
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
@@ -61,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout, error, setError }}>
+    <AuthContext.Provider value={{ currentUser, login, logout, error, setError, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

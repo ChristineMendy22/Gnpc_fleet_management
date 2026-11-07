@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import MyUserSerializer
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 from users.serializers import MyTokenObtainPairSerializer
 from permissions import IsAdminUser
 MyUser = get_user_model()
@@ -43,3 +44,18 @@ class UserListCreateView(APIView):
 # Login view using JWT
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+    
+
+# Logout User view
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        # Blacklist the refresh token
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
