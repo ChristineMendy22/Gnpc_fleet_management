@@ -38,7 +38,7 @@ const UserForm = ({onSubmit, selectedUser, mode}) => {
 
         const handleSubmitForm = (e) => {
             e.preventDefault();
-            onSubmit(e, userForm);
+            onSubmit(userForm);
         }
 
         return (

@@ -106,11 +106,7 @@ const Admin = () => {
         );
     };
     
-    const handleSubmit = async (e, userForm) => {
-        e.preventDefault();
-
-        console.log("User Form", userForm);
-        
+    const handleSubmit = async ({userForm}) => {
         
         if (mode === 'add') {
             try {
