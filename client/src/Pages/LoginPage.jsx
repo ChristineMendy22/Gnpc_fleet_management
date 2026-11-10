@@ -95,8 +95,7 @@ const LoginPage = () => {
             type="submit"
             className={`w-full bg-green-900 text-white py-3 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 *: ${!email || !password ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            {submitting ? <Loader className="animate-spin" /> : null}
-            Sign In
+            {submitting ? <Loader className="animate-spin text-center" /> : 'Sign In'}
           </button>
         </form>
       </div>
