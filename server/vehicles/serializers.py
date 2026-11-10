@@ -7,6 +7,4 @@ class VehicleSerializer(serializers.ModelSerializer):
         model = Vehicle
         fields = '__all__'
     
-    def validate(self, attrs):
-        pass
     
