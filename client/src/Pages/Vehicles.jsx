@@ -1,10 +1,20 @@
 import React from 'react'
 import AppLayout from '../layout/AppLayout'
 import { Car, Gauge, MapPin, MoreHorizontal, Plus, Wrench } from 'lucide-react'
-import { STATUS_STYLES, VEHICLES } from '../data/dummyData'
+import { STATUS_STYLES } from '../data/dummyData'
+import { useVehicles } from '../contexts/VehicleContext'
 
 
 const Vehicles = () => {
+    const { vehicles } = useVehicles() 
+    
+    // console.log(vehicles);
+    //  "id": 3,
+    // "model_name": "Toyota Hilux",
+    // "status": "out_of_service",
+    // "mileage": 3450.5,
+    // "assigned_to": 9
+    
   return (
     <AppLayout title={"Vehicles"}>
         <header className="flex items-center justify-between border-b border-slate-200 bg-white px-8 py-4">
@@ -20,7 +30,7 @@ const Vehicles = () => {
             </button>
         </header>
         <div className="grid grid-cols-1 gap-5 p-5 md:grid-cols-2 xl:grid-cols-3">
-          {VEHICLES.map((v) => (
+          {vehicles.map((v) => (
                 <div key={v.id} className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
@@ -29,7 +39,7 @@ const Vehicles = () => {
                             </div>
                             <div>
                                 <div className="text-sm font-semibold text-slate-800">{v.id}</div>
-                                <div className="text-xs text-slate-400">{v.model}</div>
+                                <div className="text-xs text-slate-400">{v.model_name}</div>
                             </div>
                         </div>
                         <button type="button" className="text-slate-300 hover:text-slate-500">

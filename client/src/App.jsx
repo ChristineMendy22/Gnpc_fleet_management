@@ -12,6 +12,7 @@ import TripLogs from './Pages/TripLogs'
 import Trips from './Pages/Trips'
 import Admin from './Pages/Admin'
 import PublicOnlyRoute from './auth/PublicOnlyRoute'
+import Vehicles from './Pages/Vehicles'
 
 function App() {
   
@@ -29,6 +30,7 @@ function App() {
 
         {/* Protected Routes */}
         <Route path='/dashboard' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path='/vehicles' element={<ProtectedRoute><Vehicles /></ProtectedRoute>} />
         <Route path='/request-vehicle' element={<ProtectedRoute><MyRequests /></ProtectedRoute>} />
         <Route path='/create-request' element={<ProtectedRoute><NewRequests /></ProtectedRoute>} />
         <Route path='/approval' element={<ProtectedRoute><Approval /></ProtectedRoute>} />

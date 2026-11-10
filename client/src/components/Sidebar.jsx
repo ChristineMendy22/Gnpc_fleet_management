@@ -1,4 +1,4 @@
-import { BarChart3, Car, CheckSquare, ClipboardList, FilePlus2, LayoutDashboard, NotebookText, Settings, Users, Users2 } from "lucide-react";
+import { BarChart3, Car, CarFrontIcon, CheckSquare, ClipboardList, FilePlus2, LayoutDashboard, NotebookText, Settings, Users, Users2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Images/gnpc-logo.jpg";
 const Sidebar = () => {
@@ -6,6 +6,7 @@ const Sidebar = () => {
         { label: "Dashboard", icon: LayoutDashboard, url: "/dashboard"},
         { label: "New Request", icon: FilePlus2,  url: "/create-request"},
         { label: "My Requests", icon: ClipboardList, active: true, url:"/request-vehicle" },
+        { label: "Vehicles", icon: CarFrontIcon, url: "/vehicles"},
         { label: "Approvals", icon: CheckSquare, url: "/Approval"},
         { label: "Assignments", icon: Users2, url: "/assignment" },
         { label: "Trip Logs", icon: NotebookText, url: "/trip-logs" },
